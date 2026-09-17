@@ -11,8 +11,9 @@ import { site } from "@/lib/site";
 import { img } from "@/lib/images";
 import { TanitMark } from "@/components/ui/tanit-mark";
 import { SmartImage } from "@/components/shared/smart-image";
-import { ButtonLink } from "@/components/ui/button";
+import { ButtonLink, Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { ReservationModal } from "@/components/forms/reservation-modal";
 
 /* Header — logo lockup left (TANIT + stacked CARTHAGE/KITCHEN caps),
    nav centered, phone + quote pill right. Dropdowns mirror the two
@@ -54,6 +55,7 @@ export function Header() {
   // Dropdowns open on CLICK (deliberate, touch-friendly, a11y-clean);
   // Escape, outside-click, and route changes close them.
   const [menu, setMenu] = useState<null | "catering" | "cuisines" | "company">(null);
+  const [reservationOpen, setReservationOpen] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
   const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -407,7 +409,17 @@ export function Header() {
         </nav>
 
         {/* Actions */}
-        <div className="hidden items-center justify-end gap-6 xl:flex">
+        <div className="hidden items-center justify-end gap-4 xl:flex">
+          <button
+            type="button"
+            onClick={() => setReservationOpen(true)}
+            className={cn(
+              "font-sans text-[0.7rem] font-semibold tracking-[0.14em] uppercase transition-colors",
+              light ? "text-gold hover:text-foam" : "text-copper-deep hover:text-ink"
+            )}
+          >
+            Table Reservation
+          </button>
           <a
             href={site.phoneHref}
             className="group/item relative flex items-center gap-2 font-sans text-[0.7rem] font-semibold tracking-[0.08em] opacity-85 transition-opacity hover:opacity-100"
@@ -510,6 +522,17 @@ export function Header() {
                 ))}
               </ul>
               <div className="flex flex-col items-start gap-4">
+                <Button
+                  type="button"
+                  variant="gold"
+                  size="lg"
+                  onClick={() => {
+                    setOpen(false);
+                    setReservationOpen(true);
+                  }}
+                >
+                  Table Reservation
+                </Button>
                 <ButtonLink href="/get-a-quote?from=mobile-menu" variant="gold" size="lg">
                   Request Quote
                 </ButtonLink>
@@ -521,6 +544,11 @@ export function Header() {
           </motion.nav>
         )}
       </AnimatePresence>
+
+      <ReservationModal
+        isOpen={reservationOpen}
+        onClose={() => setReservationOpen(false)}
+      />
     </header>
   );
 }

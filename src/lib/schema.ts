@@ -1,4 +1,34 @@
 import { site } from "@/lib/site";
+import { pgSchema, serial, text, integer, timestamp } from "drizzle-orm/pg-core";
+
+// Drizzle ORM Schema - multi-schema: "carthage"
+export const carthageSchema = pgSchema("carthage");
+
+export const reservations = carthageSchema.table("reservations", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone"),
+  guests: integer("guests").notNull().default(2),
+  date: text("date").notNull(),
+  time: text("time").notNull(),
+  notes: text("notes"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+});
+
+export const inquiries = carthageSchema.table("inquiries", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  message: text("message").notNull(),
+  eventType: text("event_type"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+});
+
+export type Reservation = typeof reservations.$inferSelect;
+export type NewReservation = typeof reservations.$inferInsert;
+export type Inquiry = typeof inquiries.$inferSelect;
+export type NewInquiry = typeof inquiries.$inferInsert;
 
 export function localBusinessSchema() {
   return {

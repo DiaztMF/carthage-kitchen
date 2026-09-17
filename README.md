@@ -1,67 +1,86 @@
 # Carthage Template
 
-A production-grade marketing-website template built with **Next.js 16 (App Router)**,
-**React 19**, **Tailwind CSS v4**, and **Motion**. It ships a full multi-page catering/
-hospitality site — but the architecture (block-based composition, typed content layer,
-end-to-end SEO) is domain-agnostic and meant to be reskinned for any content-driven
-business site.
+A production-grade culinary hospitality and catering marketing platform built with Next.js 16 (App Router), React 19, Tailwind CSS v4, and Motion.
 
-> All content (testimonials, case studies, locations, menus) is **fictional placeholder
-> data** living in typed modules under `src/data/` — swap it for your own.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Next.js](https://img.shields.io/badge/Next.js-16.2.3-black?logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.0.0-blue?logo=react)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 
-## Stack
+## Installation
 
-| Layer | Choice |
-|---|---|
-| Framework | Next.js 16, App Router, React Server Components |
-| Language | TypeScript (strict) |
-| Styling | Tailwind CSS v4 (`@tailwindcss/postcss`) |
-| Animation | Motion (`motion`) |
-| UI utilities | `class-variance-authority`, `clsx`, `tailwind-merge`, `lucide-react` |
-| Package manager | pnpm |
-
-No database or backend required — content is statically typed data, so the site builds
-and deploys as a static/SSR Next.js app out of the box.
-
-## Architecture
-
-The design unit is the **block**: a reusable, data-bound component. Pages are
-*compositions* of intent-scoped blocks rather than a single copied skeleton — each page
-class assembles only the blocks its purpose requires. See **[`structure.md`](./structure.md)**
-for the full page-by-page map and the reasoning behind it (also a worked example of
-SEO-driven information architecture).
-
-```
-src/
-  app/            # ~25 routes: home, services, menus, events, locations,
-                  #   pricing, gallery, testimonials, get-a-quote, legal, [slug]
-  components/
-    blocks/       # data-bound page sections (Hero, TrustStrip, FaqAccordion, …)
-    forms/  layout/  navigation/  shared/  ui/
-  data/           # typed placeholder content (testimonials, locations, menus, …)
-  lib/
-    schema.ts     # JSON-LD structured-data builders
-    images.ts     # image registry
-  app/sitemap.ts  app/robots.ts
-```
-
-**SEO is first-class:** every indexable page carries structured data (Organization,
-LocalBusiness, WebSite, BreadcrumbList, plus page-specific FAQ/Service/Menu/Article/Review
-nodes), with generated `sitemap.xml` and `robots.txt`.
-
-## Use this template
+Clone the repository and install dependencies using `pnpm`:
 
 ```bash
+git clone https://github.com/DiaztMF/carthage-template.git
+cd carthage-template
 pnpm install
-pnpm dev        # http://localhost:3004
-pnpm build      # production build
-pnpm start      # serve the build
 ```
 
-To make it yours: replace the modules in `src/data/`, swap the brand name and copy,
-point `lib/images.ts` at your assets, and adjust the routes in `src/app/` to your
-content map.
+## Quick Start
+
+Start the local development server:
+
+```bash
+pnpm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to inspect the application.
+
+## What
+
+Carthage Template is a full-featured marketing platform designed for luxury catering businesses, chef collectives, and fine dining establishments. It provides structured menus, multi-location showcases, and customer inquiry management using a modular block-based architecture.
+
+## Why
+
+Traditional hospitality websites frequently suffer from rigid monolithic page builders, poor performance scores, and unmaintainable content coupling. Carthage solves this by decoupling content into typed modules under `src/data/`, leveraging Next.js 16 App Router Server Components for instantaneous loads, and utilizing Tailwind CSS v4 for zero-runtime styling.
+
+## API & Routes
+
+| Route | Type | Description |
+|---|---|---|
+| `/` | Page (RSC) | Master hospitality landing featuring hero presentation, philosophy, and culinary highlights |
+| `/menu` | Page (RSC) | Dynamic culinary menu categorized with typed ingredient modules and dietary filters |
+| `/locations` | Page (RSC) | Physical venue directory with hours, parking details, and interactive map cards |
+| `/about` | Page (RSC) | Brand narrative, culinary team profiles, and certifications |
+| `/contact` | Page (Client) | Reservation request and event booking inquiry form |
+
+## Examples
+
+### Customizing Menu Items
+Edit the typed menu definitions in `src/data/menu.ts` without touching presentation code:
+
+```typescript
+export const menuData = [
+  {
+    id: "wood-fired-octopus",
+    title: "Wood-Fired Octopus",
+    description: "Charred tender octopus, smoked paprika emulsion, fingerling potatoes",
+    price: "$28",
+    category: "Appetizers"
+  }
+];
+```
+
+## Architecture & Development Guides
+
+```
+carthage-template/
+├── src/
+│   ├── app/                 # Next.js 16 App Router pages and layouts
+│   ├── components/          # Reusable UI primitives and section blocks
+│   │   ├── sections/        # Domain-specific page sections
+│   │   └── ui/              # Base design system primitives
+│   └── data/                # Typed data modules (menus, locations, testimonials)
+├── public/                  # Static assets and brand imagery
+├── DESIGN.md                # Semantic Design System specification
+├── package.json             # Scripts and dependencies
+└── tsconfig.json            # TypeScript configuration
+```
+
+For detailed UI rules, color roles, and typography standards, refer to [DESIGN.md](DESIGN.md).
 
 ## License
 
-MIT
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for full details.

@@ -10,6 +10,7 @@ import { attributePages } from "@/data/attributes";
 import { Button } from "@/components/ui/button";
 import { Input, Label, Select, Textarea } from "@/components/forms/field";
 import { cn } from "@/lib/utils";
+import { submitQuoteInquiry } from "@/actions/reservation";
 
 /* Five-step lead capture. Only two required fields: event type + email.
    Steps 2–4 are honestly skippable; a review summary with jump-back edits
@@ -139,10 +140,26 @@ export function QuoteWizard() {
     return rows;
   }, [draft, offering, isRecurring]);
 
-  function submit(e: React.SubmitEvent<HTMLFormElement>) {
+  async function submit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     if (sending || !stepValid[5] || !stepValid[1]) return;
     setSending(true);
+
+    try {
+      await submitQuoteInquiry({
+        name: draft.name || "Guest",
+        email: draft.email,
+        phone: draft.phone,
+        eventType: draft.event_type,
+        message: draft.vision || "Catering quote request via QuoteWizard",
+        guestCount: draft.guest_count,
+        eventDate: draft.event_date,
+        cuisine: draft.cuisine,
+      });
+    } catch (err) {
+      console.error("Quote submission error:", err);
+    }
+
     try {
       localStorage.removeItem(STORAGE_KEY);
     } catch {}
