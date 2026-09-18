@@ -13,8 +13,8 @@ A production-grade culinary hospitality and catering marketing platform built wi
 Clone the repository and install dependencies using `pnpm`:
 
 ```bash
-git clone https://github.com/DiaztMF/carthage-template.git
-cd carthage-template
+git clone https://github.com/DiaztMF/carthage-kitchen.git
+cd carthage-kitchen
 pnpm install
 ```
 
@@ -66,7 +66,7 @@ export const menuData = [
 ## Architecture & Development Guides
 
 ```
-carthage-template/
+carthage-kitchen/
 ├── src/
 │   ├── app/                 # Next.js 16 App Router pages and layouts
 │   ├── components/          # Reusable UI primitives and section blocks
